@@ -9,9 +9,9 @@ let game = () => {
     if (current === "W") playerScore++;
     if (current === "L") computerScore++;
     printRoundResult(current, player, computer);
+    console.log("Player Score: " + playerScore);
+    console.log("Computer Score: " + computerScore);
   }
-  console.log("Player Score: " + playerScore);
-  console.log("Computer Score: " + computerScore);
 };
 
 // randomizes the computer selection
@@ -44,7 +44,7 @@ let playRound = (playerSelection, computerSelection) => {
   if (playerSelection === computerSelection) {
     result = "D";
   } else if (playerSelection === "rock") {
-    result = computer === "scissor" ? "W" : "L";
+    result = computerSelection === "scissor" ? "W" : "L";
   } else if (playerSelection === "scissor") {
     result = computerSelection === "paper" ? "W" : "L";
   } else if (playerSelection === "paper") {
