@@ -70,15 +70,5 @@ let printRoundResult = (result, playerSelection, computerSelection) => {
   }
 };
 
-let playRock = () => {
-  playRound("rock", computerPlay());
-};
-let playScissor = () => {
-  playRound("scissor", computerPlay());
-};
-let playPaper = () => {
-  playRound("paper", computerPlay());
-};
-
 let playerScore = 0;
 let computerScore = 0;
