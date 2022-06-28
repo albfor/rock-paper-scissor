@@ -15,7 +15,7 @@ body {
 .score {
     display: flex;
     justify-content: center;
-    gap: 150px;
+    gap: 50px;
 }
 
 img {
@@ -23,6 +23,6 @@ img {
     border: 5px solid white;
 }
 
-img:hover {
+.selection img:hover {
     border-color: blue;
 }

@@ -59,6 +59,21 @@ let update = (result, playerSelection, computerSelection) => {
  * Prints the result of a single round
  */
 let printRoundResult = (result, playerSelection, computerSelection) => {
+  if (computerSelection === "rock") {
+    document.getElementById("played-computer").innerHTML = rock;
+  } else if (computerSelection === "paper") {
+    document.getElementById("played-computer").innerHTML = paper;
+  } else if (computerSelection === "scissor") {
+    document.getElementById("played-computer").innerHTML = scissor;
+  }
+  if (playerSelection === "rock") {
+    document.getElementById("played").innerHTML = rock;
+  } else if (playerSelection === "paper") {
+    document.getElementById("played").innerHTML = paper;
+  } else if (playerSelection === "scissor") {
+    document.getElementById("played").innerHTML = scissor;
+  }
+
   if (result === "W") {
     document.getElementById("current").innerHTML =
       "You won! " + playerSelection + " beats " + computerSelection;
@@ -69,6 +84,10 @@ let printRoundResult = (result, playerSelection, computerSelection) => {
     document.getElementById("current").innerHTML = "It's a draw.";
   }
 };
+
+const rock = `<img src="https://i.imgur.com/Hk851R8.jpeg" alt="Rock" height="200" width="200">`;
+const paper = `<img src="https://i.imgur.com/KzvuxyF.jpeg" alt="Rock" height="200" width="200">`;
+const scissor = `<img src="https://i.imgur.com/oSPI0cl.jpeg" alt="Rock" height="200" width="200">`;
 
 let playerScore = 0;
 let computerScore = 0;
