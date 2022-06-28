@@ -1,49 +1,66 @@
+// play 5 rounds of rock paper scissor
+let game = () => {
+  let totalScore = 0;
+  for (let i = 0; i < 5; i++) {
+    let player = prompt("Select hand");
+    let computer = computerPlay();
+    let current = playRound(player, computer);
+    printRoundResult(current, player, computer);
+    totalScore += current;
+  }
+  console.log("Score: " + totalScore);
+};
+
+// randomizes the computer selection
 let computerPlay = () => {
   let hand;
   switch (Math.floor(Math.random() * 3)) {
     case 0:
-      hand = "Rock";
+      hand = "rock";
       break;
     case 1:
-      hand = "Paper";
+      hand = "paper";
       break;
     case 2:
-      hand = "Scissor";
+      hand = "scissor";
       break;
   }
   return hand;
 };
 
-let battle = (playerSelection, computerSelection) => {
+/**
+ * It is a regular game of rock paper scissor
+ * win return 1
+ * draw return 0
+ * lose return -1
+ * throws invalid user inputs
+ */
+let playRound = (playerSelection, computerSelection) => {
+  playerSelection = playerSelection.toLowerCase();
   let result;
   if (playerSelection === computerSelection) {
-    result = "draw";
-  } else if (playerSelection === "Rock") {
-    if (computerSelection === "Scissor") {
-      result = "win";
-    } else {
-      result = "lose";
-    }
-  } else if (playerSelection === "Scissor") {
-    if (computerSelection === "Paper") {
-      result = "win";
-    } else {
-      result = "lose";
-    }
+    result = 0;
+  } else if (playerSelection === "rock") {
+    result = computer === "scissor" ? 1 : -1;
+  } else if (playerSelection === "scissor") {
+    result = computerSelection === "paper" ? 1 : -1;
+  } else if (playerSelection === "paper") {
+    result = computerSelection === "rock" ? 1 : -1;
   } else {
-    if (computerSelection === "Rock") {
-      result = "win";
-    } else {
-      result = "lose";
-    }
+    throw "Not valid input";
   }
+  return result;
+};
 
-  switch (result) {
-    case "win":
-      return "You win! " + playerSelection + " beats " + computerSelection;
-    case "lose":
-      return "You lose! " + computerSelection + " beats " + playerSelection;
-    default:
-      return "It's a draw.";
+/**
+ * Prints the result of a single round
+ */
+let printRoundResult = (result, playerSelection, computerSelection) => {
+  if (result === 1) {
+    console.log("You won! " + playerSelection + " beats " + computerSelection);
+  } else if (result === -1) {
+    console.log("You lost! " + computerSelection + " beats " + playerSelection);
+  } else {
+    console.log("It's a draw.");
   }
 };
