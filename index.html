@@ -7,9 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissor</title>
     <script src="./app.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    <h1>Rock Paper Scissor</h1>
+    <div class="selection">
+        <img src="https://i.imgur.com/Hk851R8.jpeg" alt="Rock" height="200" width="200" onclick="playRound('rock')">
+        <img src="https://i.imgur.com/KzvuxyF.jpeg" alt="Rock" height="200" width="200" onclick="playRound('paper')">
+        <img src="https://i.imgur.com/oSPI0cl.jpeg" alt="Rock" height="200" width="200" onclick="playRound('scissor')">
+    </div>
+    
+    <div class="score">
+        <div class="player-score">
+            <h2>Player:</h2>
+            <h2 id="player-score">0</h2>
+        </div>
+        <div class="computer-score">
+            <h2>Computer:</h2>
+            <h2 id="computer-score">0</h2>
+        </div>
+    </div>
+    
+    <div class="current">
+        <h2 id="current"></h2>
+    </div>
 
 </body>
 

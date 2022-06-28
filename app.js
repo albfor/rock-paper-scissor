@@ -1,19 +1,3 @@
-// play first to five in rock paper scissors vs the computer
-let game = () => {
-  let playerScore = 0;
-  let computerScore = 0;
-  while (playerScore < 5 && computerScore < 5) {
-    let player = prompt("Select hand");
-    let computer = computerPlay();
-    let current = playRound(player, computer);
-    if (current === "W") playerScore++;
-    if (current === "L") computerScore++;
-    printRoundResult(current, player, computer);
-    console.log("Player Score: " + playerScore);
-    console.log("Computer Score: " + computerScore);
-  }
-};
-
 // randomizes the computer selection
 let computerPlay = () => {
   let hand;
@@ -38,7 +22,8 @@ let computerPlay = () => {
  * lose return -1
  * throws invalid user inputs
  */
-let playRound = (playerSelection, computerSelection) => {
+let playRound = (playerSelection) => {
+  let computerSelection = computerPlay();
   playerSelection = playerSelection.toLowerCase();
   let result;
   if (playerSelection === computerSelection) {
@@ -52,7 +37,22 @@ let playRound = (playerSelection, computerSelection) => {
   } else {
     throw "Not valid input";
   }
+  update(result, playerSelection, computerSelection);
   return result;
+};
+
+// Updates scores and shows the updated score
+let update = (result, playerSelection, computerSelection) => {
+  if (result === "W") {
+    playerScore++;
+    document.getElementById("player-score").innerHTML = playerScore;
+  }
+  if (result === "L") {
+    computerScore++;
+    document.getElementById("computer-score").innerHTML = computerScore;
+  }
+
+  printRoundResult(result, playerSelection, computerSelection);
 };
 
 /**
@@ -60,10 +60,25 @@ let playRound = (playerSelection, computerSelection) => {
  */
 let printRoundResult = (result, playerSelection, computerSelection) => {
   if (result === "W") {
-    console.log("You won! " + playerSelection + " beats " + computerSelection);
+    document.getElementById("current").innerHTML =
+      "You won! " + playerSelection + " beats " + computerSelection;
   } else if (result === "L") {
-    console.log("You lost! " + computerSelection + " beats " + playerSelection);
+    document.getElementById("current").innerHTML =
+      "You lost! " + computerSelection + " beats " + playerSelection;
   } else {
-    console.log("It's a draw.");
+    document.getElementById("current").innerHTML = "It's a draw.";
   }
 };
+
+let playRock = () => {
+  playRound("rock", computerPlay());
+};
+let playScissor = () => {
+  playRound("scissor", computerPlay());
+};
+let playPaper = () => {
+  playRound("paper", computerPlay());
+};
+
+let playerScore = 0;
+let computerScore = 0;
