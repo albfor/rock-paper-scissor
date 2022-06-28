@@ -1,14 +1,17 @@
-// play 5 rounds of rock paper scissor
+// play first to five in rock paper scissors vs the computer
 let game = () => {
-  let totalScore = 0;
-  for (let i = 0; i < 5; i++) {
+  let playerScore = 0;
+  let computerScore = 0;
+  while (playerScore < 5 && computerScore < 5) {
     let player = prompt("Select hand");
     let computer = computerPlay();
     let current = playRound(player, computer);
+    if (current === "W") playerScore++;
+    if (current === "L") computerScore++;
     printRoundResult(current, player, computer);
-    totalScore += current;
   }
-  console.log("Score: " + totalScore);
+  console.log("Player Score: " + playerScore);
+  console.log("Computer Score: " + computerScore);
 };
 
 // randomizes the computer selection
@@ -39,13 +42,13 @@ let playRound = (playerSelection, computerSelection) => {
   playerSelection = playerSelection.toLowerCase();
   let result;
   if (playerSelection === computerSelection) {
-    result = 0;
+    result = "D";
   } else if (playerSelection === "rock") {
-    result = computer === "scissor" ? 1 : -1;
+    result = computer === "scissor" ? "W" : "L";
   } else if (playerSelection === "scissor") {
-    result = computerSelection === "paper" ? 1 : -1;
+    result = computerSelection === "paper" ? "W" : "L";
   } else if (playerSelection === "paper") {
-    result = computerSelection === "rock" ? 1 : -1;
+    result = computerSelection === "rock" ? "W" : "L";
   } else {
     throw "Not valid input";
   }
@@ -56,9 +59,9 @@ let playRound = (playerSelection, computerSelection) => {
  * Prints the result of a single round
  */
 let printRoundResult = (result, playerSelection, computerSelection) => {
-  if (result === 1) {
+  if (result === "W") {
     console.log("You won! " + playerSelection + " beats " + computerSelection);
-  } else if (result === -1) {
+  } else if (result === "L") {
     console.log("You lost! " + computerSelection + " beats " + playerSelection);
   } else {
     console.log("It's a draw.");
