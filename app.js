@@ -141,19 +141,9 @@ const displaySelection = (participant, selection) => {
   let img = new Image();
   img.classList.add("option");
   const p = document.querySelector(participant);
-  if (selection === "rock") {
-    img.src = "https://i.imgur.com/Hk851R8.jpeg";
-    img.alt = "Rock"
-    p.replaceChildren(img);
-  } else if (selection === "scissor") {
-    img.src = "https://i.imgur.com/oSPI0cl.jpeg";
-    img.alt = "Scissor"
-    p.replaceChildren(img);
-  } else if (selection === "paper") {
-    img.src = "https://i.imgur.com/KzvuxyF.jpeg";
-    img.alt = "Paper"
-    p.replaceChildren(img);
-  }
+  const s = document.querySelector(`#${selection}`);
+  img.src = s.src;
+  p.replaceChildren(img);
 }
 
 init();
