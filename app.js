@@ -62,14 +62,27 @@ let update = (result, playerSelection, computerSelection) => {
   }
   if (playerScore > 4) {
     document.getElementById('current').innerHTML =
-      "<h1>Victory For Mankind.</h1>";
+      "<h1>Victory For Mankind.</h1><button class='reset' onclick='init()'>reset</button>";
   } else if (computerScore > 4) {
     document.getElementById('current').innerHTML =
-      "<h1>The Computers are Victorious.</h1>";
+      "<h1>The Computers are Victorious.</h1><button class='reset' onclick='init()'>reset</button>";
   } else {
     printRoundResult(result, playerSelection, computerSelection);
   }
 };
+
+function init() {
+  playerScore = 0;
+  computerScore = 0;
+  document.querySelector('#player-score').textContent = playerScore;
+  document.querySelector('#computer-score').textContent = computerScore;
+  const current = document.querySelector('#current');
+  document.querySelector('#played-computer').innerHTML = '';
+  document.querySelector('#played').innerHTML = '';
+  while (current.firstChild) {
+    current.removeChild(current.firstChild);
+  }
+}
 
 /**
  * Prints the result of a single round
