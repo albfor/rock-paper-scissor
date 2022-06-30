@@ -13,14 +13,14 @@
 <body>
     <h1>Rock Paper Scissor</h1>
     <div class="selection">
-        <img src="https://i.imgur.com/Hk851R8.jpeg" alt="rock" height="200" width="200">
-        <img src="https://i.imgur.com/KzvuxyF.jpeg" alt="paper" height="200" width="200">
-        <img src="https://i.imgur.com/oSPI0cl.jpeg" alt="scissor" height="200" width="200">
+        <img src="https://i.imgur.com/Hk851R8.jpeg" alt="rock" class="option" id="rock">
+        <img src="https://i.imgur.com/KzvuxyF.jpeg" alt="paper" class="option" id="paper">
+        <img src="https://i.imgur.com/oSPI0cl.jpeg" alt="scissor" class="option" id="scissor">
     </div>
     
-    <div class="score">
+    <div class="current-score">
         <div class="player-score">
-            <div id="played"></div>
+            <div id="played-player"></div>
             <h2>Player:</h2>
             <h2 id="player-score"></h2>
         </div>
@@ -31,7 +31,7 @@
         </div>
     </div>
     
-    <div id="current">
+    <div id="final-score">
     </div>
 
 </body>

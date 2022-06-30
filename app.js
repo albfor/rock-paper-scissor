@@ -1,14 +1,11 @@
-const rock = `<img src="https://i.imgur.com/Hk851R8.jpeg" alt="Rock" height="200" width="200">`;
-const paper = `<img src="https://i.imgur.com/KzvuxyF.jpeg" alt="Paper" height="200" width="200">`;
-const scissor = `<img src="https://i.imgur.com/oSPI0cl.jpeg" alt="Scissor" height="200" width="200">`;
 
 let playerScore;
 let computerScore;
 
 const options = document.querySelectorAll('.selection img');
 
-// randomizes the computer selection
-let computerPlay = () => {
+// Randomly select rock, paper or scissor.
+const computerPlay = () => {
   let hand;
   switch (Math.floor(Math.random() * 3)) {
     case 0:
@@ -26,14 +23,23 @@ let computerPlay = () => {
 
 /**
  * It is a regular game of rock paper scissor
- * win return 1
- * draw return 0
- * lose return -1
- * throws invalid user inputs
+ * win return W
+ * draw return D
+ * lose return L
  */
-let playRound = (event) => {
-  let playerSelection = event.target.alt;
-  let computerSelection = computerPlay();
+const playRound = (event) => {
+  // Get selection from player and computer
+  const playerSelection = event.target.alt;
+  const computerSelection = computerPlay();
+
+  //Calculate result of round
+  const result = calculateResult(playerSelection, computerSelection);
+
+  //update
+  update(result, playerSelection, computerSelection);
+};
+
+const calculateResult = (playerSelection, computerSelection) => {
   let result;
   if (playerSelection === computerSelection) {
     result = "D";
@@ -43,52 +49,67 @@ let playRound = (event) => {
     result = computerSelection === "paper" ? "W" : "L";
   } else if (playerSelection === "paper") {
     result = computerSelection === "rock" ? "W" : "L";
-  } else {
-    throw "Not valid input";
-  }
-  update(result, playerSelection, computerSelection);
+  }  
   return result;
-};
+}
 
 // Updates scores and shows the updated score
-let update = (result, playerSelection, computerSelection) => {
+const update = (result, playerSelection, computerSelection) => {
+  increaseScore(result);
+  printRoundResult(result, playerSelection, computerSelection);
+  if (playerScore > 4 || computerScore > 4)
+    handleWin();
+};
+
+const handleWin = () => {
+  //add victory message and reset button
+  const result = document.querySelector('#final-score');
+  const msg = createVictoryMessage(result);
+  const resetButton = createRestartButton(result);
+  result.appendChild(msg);
+  result.appendChild(resetButton);
+
+  //remove eventlisteners
+  options.forEach(option => {
+    option.removeEventListener('click', playRound);
+  });
+}
+
+const createVictoryMessage = (result) => {
+  const msg = document.createElement("h1");
+  if (playerScore > 4) {
+    msg.textContent = "Victory For Mankind.";
+  } else if (computerScore > 4) {
+    msg.textContent = "The Computers are Victorious.";
+  }
+  return msg;
+}
+
+const createRestartButton = (result) => {
+  const resetButton = document.createElement("button");
+  resetButton.textContent = "Play Again";
+  resetButton.addEventListener('click', init);
+  return resetButton;
+}
+
+function increaseScore(result) {
   if (result === "W") {
     playerScore++;
-    document.getElementById("player-score").innerHTML = playerScore;
-  }
-  if (result === "L") {
+    document.querySelector("#player-score").textContent = playerScore;
+  } else if (result === "L") {
     computerScore++;
-    document.getElementById("computer-score").innerHTML = computerScore;
+    document.querySelector("#computer-score").textContent = computerScore;
   }
-  if (playerScore > 4) {
-    document.getElementById('current').innerHTML =
-      "<h1>Victory For Mankind.</h1><button class='reset' onclick='init()'>reset</button>";
-    options.forEach(option => {
-      option.removeEventListener('click', playRound);
-    });
-  } else if (computerScore > 4) {
-    document.getElementById('current').innerHTML =
-      "<h1>The Computers are Victorious.</h1><button class='reset' onclick='init()'>reset</button>";
-    options.forEach(option => {
-      option.removeEventListener('click', playRound);
-    });
-  } else {
-    printRoundResult(result, playerSelection, computerSelection);
-  }
-};
+}
 
 function init() {
   playerScore = 0;
   computerScore = 0;
   document.querySelector('#player-score').textContent = playerScore;
   document.querySelector('#computer-score').textContent = computerScore;
-  const current = document.querySelector('#current');
+  document.querySelector('#final-score').innerHTML = '';
   document.querySelector('#played-computer').innerHTML = '';
-  document.querySelector('#played').innerHTML = '';
-
-  while (current.firstChild) {
-    current.removeChild(current.firstChild);
-  }
+  document.querySelector('#played-player').innerHTML = '';
   options.forEach(option => {
     option.addEventListener('click', playRound);
   });
@@ -97,32 +118,42 @@ function init() {
 /**
  * Prints the result of a single round
  */
-let printRoundResult = (result, playerSelection, computerSelection) => {
-  if (computerSelection === "rock") {
-    document.getElementById("played-computer").innerHTML = rock;
-  } else if (computerSelection === "paper") {
-    document.getElementById("played-computer").innerHTML = paper;
-  } else if (computerSelection === "scissor") {
-    document.getElementById("played-computer").innerHTML = scissor;
-  }
-  if (playerSelection === "rock") {
-    document.getElementById("played").innerHTML = rock;
-  } else if (playerSelection === "paper") {
-    document.getElementById("played").innerHTML = paper;
-  } else if (playerSelection === "scissor") {
-    document.getElementById("played").innerHTML = scissor;
-  }
-
-  if (result === "W") {
-    document.getElementById("current").innerHTML =
-      "You won! " + playerSelection + " beats " + computerSelection;
-  } else if (result === "L") {
-    document.getElementById("current").innerHTML =
-      "You lost! " + computerSelection + " beats " + playerSelection;
-  } else {
-    document.getElementById("current").innerHTML = "It's a draw.";
-  }
+const printRoundResult = (result, playerSelection, computerSelection) => {
+  displaySelection('#played-computer', computerSelection);
+  displaySelection('#played-player', playerSelection);
+  displayRoundMessage(result, playerSelection, computerSelection);
 };
 
+const displayRoundMessage = (result, player, computer) => {
+  const container = document.querySelector('#final-score');
+  const msg = document.createElement("p");
+  if (result === "W") {
+    msg.textContent = `You won! ${player} beats ${computer}.`;
+  } else if (result === "L") {
+    msg.textContent = `You lost! ${computer} beats ${player}.`;
+  } else {
+    msg.textContent = "It's a draw.";
+  }
+  container.replaceChildren(msg);
+}
+
+const displaySelection = (participant, selection) => {
+  let img = new Image();
+  img.classList.add("option");
+  const p = document.querySelector(participant);
+  if (selection === "rock") {
+    img.src = "https://i.imgur.com/Hk851R8.jpeg";
+    img.alt = "Rock"
+    p.replaceChildren(img);
+  } else if (selection === "scissor") {
+    img.src = "https://i.imgur.com/oSPI0cl.jpeg";
+    img.alt = "Scissor"
+    p.replaceChildren(img);
+  } else if (selection === "paper") {
+    img.src = "https://i.imgur.com/KzvuxyF.jpeg";
+    img.alt = "Paper"
+    p.replaceChildren(img);
+  }
+}
 
 init();
