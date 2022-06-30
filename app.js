@@ -51,8 +51,15 @@ let update = (result, playerSelection, computerSelection) => {
     computerScore++;
     document.getElementById("computer-score").innerHTML = computerScore;
   }
-
-  printRoundResult(result, playerSelection, computerSelection);
+  if (playerScore > 4) {
+    document.getElementById('current').innerHTML =
+      "<h1>Victory For Mankind.</h1>";
+  } else if (computerScore > 4) {
+    document.getElementById('current').innerHTML =
+      "<h1>The Computers are Victorious.</h1>";
+  } else {
+    printRoundResult(result, playerSelection, computerSelection);
+  }
 };
 
 /**
