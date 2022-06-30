@@ -1,3 +1,12 @@
+const rock = `<img src="https://i.imgur.com/Hk851R8.jpeg" alt="Rock" height="200" width="200">`;
+const paper = `<img src="https://i.imgur.com/KzvuxyF.jpeg" alt="Paper" height="200" width="200">`;
+const scissor = `<img src="https://i.imgur.com/oSPI0cl.jpeg" alt="Scissor" height="200" width="200">`;
+
+let playerScore = 0;
+let computerScore = 0;
+
+const options = document.querySelectorAll('.selection img');
+
 // randomizes the computer selection
 let computerPlay = () => {
   let hand;
@@ -92,9 +101,8 @@ let printRoundResult = (result, playerSelection, computerSelection) => {
   }
 };
 
-const rock = `<img src="https://i.imgur.com/Hk851R8.jpeg" alt="Rock" height="200" width="200">`;
-const paper = `<img src="https://i.imgur.com/KzvuxyF.jpeg" alt="Rock" height="200" width="200">`;
-const scissor = `<img src="https://i.imgur.com/oSPI0cl.jpeg" alt="Rock" height="200" width="200">`;
-
-let playerScore = 0;
-let computerScore = 0;
+options.forEach(option => {
+  option.addEventListener('click', function(e) {
+    playRound(e.target.alt);
+  });
+});
